@@ -1,9 +1,8 @@
 import React from 'react'
 import MovieCard from '../components/MovieCard.jsx'
 import { useState, useEffect, useCallback } from 'react'
-import axios from 'axios'
 import { MOVIE_TYPE, DEFAULT_TYPE, DEFAULT_PAGE, DEFAULT_SEARCH } from '../../constant.js'
-import { API_KEY, BASE_URL } from '../config'
+import { searchMovie } from '../service/searchMovie'
 
 const Home = () => {
     const [query, setQuery] = useState({
@@ -22,16 +21,9 @@ const Home = () => {
         
         setLoading(true)
         try {
-            const response = await axios.get(`${BASE_URL}/?apikey=${API_KEY}`, {
-                params: {
-                    s: debouncedSearch,
-                    type: query.type,
-                    page: query.page
-                }
-            })
-            
-            if (response.data && response.data.Search) {
-                setMovies(response.data.Search)
+            const response = await searchMovie(debouncedSearch, query)
+            if (response && response.Search) {
+                setMovies(response.Search)
             } else {
                 setMovies([])
             }
@@ -85,6 +77,7 @@ const Home = () => {
                     <div className='flex flex-col gap-4 max-w-xl mx-auto mt-4'>
                         <select 
                             className='w-full p-2 rounded-md text-white bg-gray-800 border border-gray-700'
+                            name='type'
                             value={query.type}
                             onChange={handleQueryChange}
                         >
