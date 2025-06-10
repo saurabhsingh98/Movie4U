@@ -1,9 +1,10 @@
+import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import Home from '../pages/Home'
 import About from '../pages/About'
 import Header from '../components/Header'
 
-const router = createBrowserRouter([
+const routes = createBrowserRouter([
   {
     path: '/',
     element: <Header />,
@@ -20,4 +21,4 @@ const router = createBrowserRouter([
   }
 ])
 
-export default router
+export default routes
