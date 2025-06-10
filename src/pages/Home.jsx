@@ -1,12 +1,139 @@
 import React from 'react'
+import MovieCard from '../components/MovieCard.jsx'
+import { useState, useEffect, useCallback } from 'react'
+import axios from 'axios'
+import { MOVIE_TYPE, DEFAULT_TYPE, DEFAULT_PAGE, DEFAULT_SEARCH } from '../../constant.js'
+import { API_KEY, BASE_URL } from '../config'
 
 const Home = () => {
-  return (
-    <div>
-      <h1 className='text-3xl font-bold'>Welcome to Movies4u</h1>
-      <p>Your one-stop destination for movie information</p>
-    </div>
-  )
+    const [query, setQuery] = useState({
+        search: '',
+        type: DEFAULT_TYPE,
+        page: DEFAULT_PAGE
+    })
+
+    const [debouncedSearch, setDebouncedSearch] = useState(DEFAULT_SEARCH)
+    const [movies, setMovies] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    
+    const fetchMovies = useCallback(async () => {
+        if (!debouncedSearch.trim()) return;
+        
+        setLoading(true)
+        try {
+            const response = await axios.get(`${BASE_URL}/?apikey=${API_KEY}`, {
+                params: {
+                    s: debouncedSearch,
+                    type: query.type,
+                    page: query.page
+                }
+            })
+            
+            if (response.data && response.data.Search) {
+                setMovies(response.data.Search)
+            } else {
+                setMovies([])
+            }
+            setError(null)
+        } catch (err) {
+            console.error('Error fetching movies:', err)
+            setError('Failed to fetch movies. Please try again.')
+            setMovies([])
+        } finally {
+            setLoading(false)
+        }
+    }, [debouncedSearch, query.type, query.page])
+
+    // Initial search effect
+    useEffect(() => {
+        fetchMovies()
+    }, []) // Only run once on mount
+
+    // Debounce effect for search
+    useEffect(() => {
+        if (query.search.trim()) {
+            const timeoutId = setTimeout(() => {
+                setDebouncedSearch(query.search)
+            }, 500)
+
+            return () => clearTimeout(timeoutId)
+        }
+    }, [query.search])
+
+    // Fetch movies when debounced search changes
+    useEffect(() => {
+        if (query.search.trim()) {
+            fetchMovies()
+        }
+    }, [fetchMovies])
+
+    const handleQueryChange = (e) => {
+        setQuery({ ...query, [e.target.name]: e.target.value })
+    }
+
+    return (
+        <div className='min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white'>
+            <div className='container mx-auto px-4 py-12'>
+                <div className='text-center mb-12'>
+                    <h1 className='text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'>
+                        Welcome to Movies4u
+                    </h1>
+                    <p className='text-xl text-gray-300 max-w-2xl mx-auto'>
+                        Your one-stop destination for discovering and exploring the world of cinema
+                    </p>
+                    <div className='flex flex-col gap-4 max-w-xl mx-auto mt-4'>
+                        <select 
+                            className='w-full p-2 rounded-md text-white bg-gray-800 border border-gray-700'
+                            value={query.type}
+                            onChange={handleQueryChange}
+                        >
+                            {MOVIE_TYPE.map((type) => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                        <input 
+                            type="text" 
+                            name="search"
+                            placeholder='Search for a movie' 
+                            className='w-full p-2 rounded-md text-white bg-gray-800 border border-gray-700' 
+                            value={query.search} 
+                            onChange={handleQueryChange}
+                        />
+                    </div>
+                </div>
+
+                {error && (
+                    <div className='text-red-500 text-center mb-4'>
+                        {error}
+                    </div>
+                )}
+
+                {loading && (
+                    <div className='text-center mb-4'>
+                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500 mx-auto"></div>
+                    </div>
+                )}
+
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                    {movies && movies.length > 0 ? (
+                        movies.map((movie) => (
+                            <MovieCard key={movie.imdbID} movie={movie} />
+                        ))
+                    ) : (
+                        <p className='text-gray-300 col-span-full text-center'>No movies found</p>
+                    )}
+                </div>
+            </div>
+
+            {/* page */}
+            <div className='flex justify-center mt-8'>
+                <button className='bg-gray-800 text-white px-4 py-2 rounded-md' onClick={() => setQuery({ ...query, page: query.page - 1 })}>Previous</button>
+                <p className='text-gray-300'>{query.page}</p>
+                <button className='bg-gray-800 text-white px-4 py-2 rounded-md' onClick={() => setQuery({ ...query, page: query.page + 1 })}>Next</button>
+            </div>
+        </div>
+    )
 }
 
 export default Home
