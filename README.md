@@ -5,6 +5,9 @@ A modern movie search application built with React and Vite, powered by the OMDB
 ## Deployment URL
 - https://movie4-u-pi.vercel.app/
 
+## Live Demo URL
+- https://drive.google.com/file/d/1MygiSrSmjJUYaJpgBj3eqsUOlfX_PMLS/view
+
 ## 🚀 Features
 
 - Search movies and TV series
