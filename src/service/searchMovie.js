@@ -1,8 +1,9 @@
 import axios from 'axios'
-import { API_KEY, BASE_URL } from '../config'
+import { BASE_URL } from '../config'
 
 export const searchMovie = async (debouncedSearch, query) => {
-    const response = await axios.get(`${BASE_URL}/?apikey=${API_KEY}`, {
+    const apiKey = import.meta.env.VITE_OMDB_API_KEY
+    const response = await axios.get(`${BASE_URL}/?apikey=${apiKey}`, {
     params: {
         s: debouncedSearch,
         type: query.type,
