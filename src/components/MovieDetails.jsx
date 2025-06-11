@@ -42,7 +42,7 @@ const MovieDetails = () => {
         const fetchMovieDetails = async () => {
             setLoading(true)
             try {
-                const response = await axios.get(`https://www.omdbapi.com/?apikey=7035c60c&i=${id}`)
+                const response = await axios.get(`https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}&i=${id}`)
                 setMovie(response.data)
             } catch (error) {
                 console.log(error)
