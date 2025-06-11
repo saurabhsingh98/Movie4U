@@ -4,9 +4,7 @@ import Home from '../pages/Home'
 import About from '../pages/About'
 import Header from '../components/Header'
 import MovieDetails from '../components/MovieDetails'
-
-
-
+import Terms from '../pages/Terms'
 
 const routes = createBrowserRouter([
   {
@@ -24,6 +22,10 @@ const routes = createBrowserRouter([
       {
         path: '/movie/:id',
         element: <MovieDetails />
+      },
+      {
+        path: '/terms',
+        element: <Terms />
       }
     ]
   }

@@ -20,4 +20,7 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 # TechStacks Used
-React + Vite + TailWind CSS
+React
+Vite
+TailWind CSS
+Redux
