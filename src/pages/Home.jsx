@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { MOVIE_TYPE, DEFAULT_TYPE, DEFAULT_PAGE, DEFAULT_SEARCH } from '../../constant.js'
 import { searchMovie } from '../service/searchMovie'
 import { useDispatch, useSelector } from 'react-redux'
-import { setMovies, getMovies } from '../../redux/reducers/moviesData'
+import { setMovies } from '../../redux/reducers/moviesData'
 
 
 const Home = () => {
