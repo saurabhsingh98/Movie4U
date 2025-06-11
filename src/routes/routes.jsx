@@ -4,6 +4,10 @@ import Home from '../pages/Home'
 import About from '../pages/About'
 import Header from '../components/Header'
 import MovieDetails from '../components/MovieDetails'
+import Footer from '../components/Footer'
+
+
+
 
 const routes = createBrowserRouter([
   {

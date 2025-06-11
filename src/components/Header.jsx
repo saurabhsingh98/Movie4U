@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-
+import Footer from './Footer'
 const Header = () => {
   return (
     <>
@@ -11,6 +11,7 @@ const Header = () => {
         </nav>
       </header>
       <Outlet />
+      <Footer />
     </>
   )
 }
