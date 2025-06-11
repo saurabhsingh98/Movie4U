@@ -1,37 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-// {
-//     "Title": "The Man in the Iron Mask",
-//     "Year": "1968",
-//     "Rated": "N/A",
-//     "Released": "28 Jul 1968",
-//     "Runtime": "25 min",
-//     "Genre": "Adventure, Drama, History",
-//     "Director": "N/A",
-//     "Writer": "N/A",
-//     "Actors": "Nicolas Chagrin, Noel Willman, Edwin Richfield",
-//     "Plot": "D'Artagnan and his fellow Musketeers plot to replace the ineffectual Louis XIV of France with his secretly imprisoned twin brother Philippe who is the firstborn and rightful king.",
-//     "Language": "English",
-//     "Country": "United Kingdom",
-//     "Awards": "N/A",
-//     "Poster": "https://m.media-amazon.com/images/M/MV5BYTYzZjg4NmUtNGEyNC00Yzg3LWI5ZGQtYzQ2MTliYTBjMThhXkEyXkFqcGc@._V1_SX300.jpg",
-//     "Ratings": [
-//         {
-//             "Source": "Internet Movie Database",
-//             "Value": "7.2/10"
-//         }
-//     ],
-//     "Metascore": "N/A",
-//     "imdbRating": "7.2",
-//     "imdbVotes": "18",
-//     "imdbID": "tt0498967",
-//     "Type": "series",
-//     "totalSeasons": "1",
-//     "Response": "True"
-// }
-// movie details from api
-
 
 const MovieDetails = () => {
     const { id } = useParams()
