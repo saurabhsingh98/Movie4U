@@ -120,10 +120,24 @@ const Home = () => {
             </div>
 
             {/* page */}
-            <div className='flex justify-center mt-8'>
-                <button className='bg-gray-800 text-white px-4 py-2 rounded-md' onClick={() => setQuery({ ...query, page: query.page - 1 })}>Previous</button>
-                <p className='text-gray-300'>{query.page}</p>
-                <button className='bg-gray-800 text-white px-4 py-2 rounded-md' onClick={() => setQuery({ ...query, page: query.page + 1 })}>Next</button>
+            <div className='flex items-center justify-center gap-4 mt-8 pb-8'>
+                <button 
+                    className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center w-12 h-12
+                        ${query.page <= 1 
+                            ? 'bg-gray-700 text-gray-400 cursor-not-allowed' 
+                            : 'bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800'}`}
+                    onClick={() => query.page > 1 && setQuery({ ...query, page: query.page - 1 })}
+                    disabled={query.page <= 1}
+                >
+                    &lt;
+                </button>
+                <span className='text-lg font-semibold text-gray-300 min-w-[40px] text-center'>{query.page}</span>
+                <button 
+                    className='px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center w-12 h-12 bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800'
+                    onClick={() => setQuery({ ...query, page: query.page + 1 })}
+                >
+                    &gt;
+                </button>
             </div>
         </div>
     )
