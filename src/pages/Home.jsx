@@ -3,6 +3,9 @@ import MovieCard from '../components/MovieCard.jsx'
 import { useState, useEffect, useCallback } from 'react'
 import { MOVIE_TYPE, DEFAULT_TYPE, DEFAULT_PAGE, DEFAULT_SEARCH } from '../../constant.js'
 import { searchMovie } from '../service/searchMovie'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMovies } from '../../redux/reducers/moviesData'
+
 
 const Home = () => {
     const [query, setQuery] = useState({
@@ -12,9 +15,11 @@ const Home = () => {
     })
 
     const [debouncedSearch, setDebouncedSearch] = useState(DEFAULT_SEARCH)
-    const [movies, setMovies] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+
+    const dispatch = useDispatch()
+    const movies = useSelector((state) => state.moviesData.movies)
     
     const fetchMovies = useCallback(async () => {
         if (!debouncedSearch.trim()) return;
@@ -23,15 +28,15 @@ const Home = () => {
         try {
             const response = await searchMovie(debouncedSearch, query)
             if (response && response.Search) {
-                setMovies(response.Search)
+                dispatch(setMovies(response.Search))
             } else {
-                setMovies([])
+                dispatch(setMovies([]))
             }
             setError(null)
         } catch (err) {
             console.error('Error fetching movies:', err)
             setError('Failed to fetch movies. Please try again.')
-            setMovies([])
+            dispatch(setMovies([]))
         } finally {
             setLoading(false)
         }
